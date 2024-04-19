@@ -1,0 +1,6 @@
+click
+tabulate
+loguru
+tqdm
+transformers
+pandas

@@ -1,0 +1,62 @@
+default_configs:
+  output_tokens: 128
+  requests:
+    - concurrency: 1
+      num_request: 32
+    - concurrency: 4
+      num_request: 64
+    - concurrency: 16
+      num_request: 128
+    - concurrency: 32
+      num_request: 256
+    - concurrency: 64
+      num_request: 256
+    - concurrency: 128
+      num_request: 512
+tests:
+  - prompt_tokens: 128
+  - prompt_tokens: 1024
+  - prompt_tokens: 2048
+  - prompt_tokens: 4096
+  - prompt_tokens: 8192
+    requests:
+      - concurrency: 1
+        num_request: 32
+      - concurrency: 4
+        num_request: 64
+      - concurrency: 16
+        num_request: 128
+      - concurrency: 32
+        num_request: 256
+      - concurrency: 64
+        num_request: 256
+  - prompt_tokens: 16384
+    requests:
+      - concurrency: 1
+        num_request: 32
+      - concurrency: 4
+        num_request: 64
+      - concurrency: 16
+        num_request: 128
+      - concurrency: 32
+        num_request: 256
+  - prompt_tokens: 32000
+    requests:
+      - concurrency: 1
+        num_request: 32
+      - concurrency: 4
+        num_request: 64
+      - concurrency: 8
+        num_request: 64
+  - prompt_tokens: 65000
+    requests:
+      - concurrency: 1
+        num_request: 32
+      - concurrency: 2
+        num_request: 32
+      - concurrency: 4
+        num_request: 64
+  - prompt_tokens: 130000
+    requests:
+      - concurrency: 1
+        num_request: 32
