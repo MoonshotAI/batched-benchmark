@@ -8,6 +8,8 @@ wget https://huggingface.co/datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/r
 ```
 
 # Benchmark with OB
+## 获取OB
+因为当前没有整理ob的代码，所以仅提供ob可执行文件给外部用户使用，有需求请邮件联系
 
 ## 数据准备
 生成prompts，可使用`benchmarks/generate_ob_tests.py`，建议使用所测模型对应的tokenizer
