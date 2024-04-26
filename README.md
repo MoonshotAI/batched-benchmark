@@ -59,3 +59,24 @@ ob -e "http://localhost:8888/v1" -m model-name -i ./corpora/tokens-1024-1024.jso
 * `batched_benchmark.py`的输出文件夹不能事先存在（防止误操作覆盖之前的原始输出）
 * 注意可能会出现失败请求数比较多的情况，会打印`WARN: fname=... num_failed=431`，此时的测速结果不可信，请排查问题重新测试
 * full.yml中预置了一些benchmark的case，为了避免batched_benchmark每次重复generate prompt, 可以预生成一些常用长度的prompt文件(prompt-len.jsonl, 比如130000.jsonl)，然后用batched_benchamrk.py的`-p`选项传递prompt文件的所在目录
+
+# Benchmark with vLLM Engine
+### 完整benchmark流程
+* 部署vllm
+* 安装测速脚本需要的依赖项，比如直接 `pip install -r ./requirements.txt`
+* 根据实际测试需求编写config文件，通常可以直接使用`full.yml`，如需修改可以参考`batched_benchmark_template.yml`的格式
+* 调用`batched_benchmark_vllm.py`，参考命令
+  ```sh
+  # 可以设置自己的默认值，来减少命令行参数的配置
+  python3 batched_benchmark_vllm.py -c ./full.yml -p /your/path/to/prompt -t /your/tokenism/path -d /your/path/to/ShareGPT_V3_unfiltered_cleaned_split.5000.json -o ./results --model facebook/opt-125m
+  ```
+  * 具体命令含义可以`python3 ./batched_benchmark_vllm.py --help`查看，下面有简单解释
+  * `-c ./full.yml`是指定测速配置文件的路径
+  * `-p ...`是指定prompt路径，指向预先生成的prompt目录，缺少的部分会根据`-t -d`来生成，务必保证提供的prompt文件匹配待测模型，否则可能导致prompt长度不符合预期
+  * `-t ...`是指定tokenizer模型路径，一般等于待测模型的地址，用于生成prompt，如果`-p`已满足需求则不需要设置该项
+  * `-d ...`是指定dataset路径，作为生成prompt的语料来源，如果`-p`已满足需求则不需要设置该项
+  * `-o ./outputs`是指定输出目录，注意事先不能存在该目录
+  * `--model` 是vllm启动参数，可以继续追加其他vllm启动参数
+  * 输出在`batched_benchmark_vllm.py`输出目录的`final_results`子目录
+* (optional) `compare_result.py`可用来生成两次不同原始结果的比较
+  TODO
