@@ -22,6 +22,8 @@ def check_failed(row, name: str):
               required=True)
 def main(baseline: str, current: str, format: str, output: str):
     if format == "dir":
+        assert (baseline.endswith("raw_results") or baseline.endswith("raw_results/")) \
+            and (current.endswith("raw_results") or current.endswith("raw_results/"))
         baseline_df = pd.DataFrame(analyze_result.load_table(baseline))
         current_df = pd.DataFrame(analyze_result.load_table(current))
     else:
@@ -50,6 +52,8 @@ def main(baseline: str, current: str, format: str, output: str):
     suffixes = ("_baseline", "_current")
     # TODO: mark missing rows?
     new_df = baseline_df.merge(current_df, on=common_names, suffixes=suffixes)
+    assert new_df.empty is not True, f"please check the current_df and baseline_df have the same value in {common_names}."
+
     for name in to_compare_names:
         diff_name = name + "_diff"
         baseline_name = name + suffixes[0]
