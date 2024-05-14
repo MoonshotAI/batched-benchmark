@@ -50,8 +50,8 @@ ob -e "http://localhost:8888/v1" -m model-name -i ./corpora/tokens-1024-1024.jso
   * `-o ./outputs`是指定输出目录，注意事先不能存在该目录
   * 输出在`batched_benchmark.py`输出目录的`final_results`子目录
 * (optional) `compare_result.py`可用来生成两次不同原始结果的比较
-  * 方式一 `python3 compare_result.py -b <baseline_dir> -c <current_dir> -o <result.md>`
-    * 此命令涉及的目录是`batched_benchmark.py`输出目录的`raw_results`子目录
+  * 方式一 `python3 compare_result.py -b <A_results/raw_results> -c <B_results/raw_results> -o <result.md>`
+    * Note: 此命令涉及的目录是`batched_benchmark.py`输出目录的`raw_results`子目录
   * 方式二 `python3 compare_result.py -b <baseline.json> -c <current.json> -f json -o <result.md>`
     * 此命令涉及的json文件是`batched_benchmark.py`输出目录的`final_results/summary.json`
 

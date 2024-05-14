@@ -77,6 +77,10 @@ def main(dir: str, output: str, format: str, verbose: bool):
         data = [[entry[v] for v in headers] for entry in table]
         if verbose:
             print(tabulate(data, headers, tablefmt="github"))
+
+        with open(output, "w") as f:
+            f.write(msg)
+            f.write(tabulate(data, column_names, tablefmt="github"))
     else:
         # intermediate format for pandas
         assert format == "json"
