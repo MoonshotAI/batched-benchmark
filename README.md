@@ -61,6 +61,13 @@ ob -e "http://localhost:8888/v1" -m model-name -i ./corpora/tokens-1024-1024.jso
 * full.yml中预置了一些benchmark的case，为了避免batched_benchmark每次重复generate prompt, 可以预生成一些常用长度的prompt文件(prompt-len.jsonl, 比如130000.jsonl)，然后用batched_benchamrk.py的`-p`选项传递prompt文件的所在目录
 
 # Benchmark with vLLM Engine
+
+### 简介
+* **基于 vLLM Engine** 的批量测速脚本
+* 依赖`generate_ob_tests.py`生成prompt
+* 相比**Benchmark with OB**，会尽可能batch请求到给定的concurrency参数，方便测试不同的batch性能
+
+support benchmarking using vllm engine sdk. Batch size is more accurate.
 ### 完整benchmark流程
 * 部署vllm
 * 安装测速脚本需要的依赖项，比如直接 `pip install -r ./requirements.txt`
@@ -78,5 +85,3 @@ ob -e "http://localhost:8888/v1" -m model-name -i ./corpora/tokens-1024-1024.jso
   * `-o ./outputs`是指定输出目录，注意事先不能存在该目录
   * `--model` 是vllm启动参数，可以继续追加其他vllm启动参数
   * 输出在`batched_benchmark_vllm.py`输出目录的`final_results`子目录
-* (optional) `compare_result.py`可用来生成两次不同原始结果的比较
-  TODO
